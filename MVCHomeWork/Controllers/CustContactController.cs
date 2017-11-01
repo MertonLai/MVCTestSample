@@ -141,12 +141,17 @@ namespace MVCHomeWork.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public JsonResult EmailIsUniquied(int 客戶Id, string Email) {
-			if (db.客戶聯絡人.Any(c => c.客戶Id == 客戶Id && c.Email == Email)) {
-				return Json(true, JsonRequestBehavior.AllowGet);
-			} else {
-				return Json(false, JsonRequestBehavior.AllowGet);
-			}
+		public JsonResult EmailIsUniquied(int? Id, int 客戶Id, string Email) {
+            if(db.客戶聯絡人.Any(c => c.Id == Id && c.Email == Email)) {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            } else {
+                if (db.客戶聯絡人.Any(c => c.客戶Id == 客戶Id && c.Email == Email)) {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                } else {
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+            }
+			
 		}
 
         [ChildActionOnly]

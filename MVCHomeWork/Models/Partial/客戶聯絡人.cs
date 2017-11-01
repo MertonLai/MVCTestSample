@@ -26,7 +26,7 @@ namespace MVCHomeWork.Models {
             [Required(ErrorMessage = "請輸入{0}資料")]
             [DataType(DataType.EmailAddress, ErrorMessage = "{0}資料有錯誤，請輸入正確電子郵件格式")]
             [Index("UX_CustConst", IsUnique = true, Order = 2)]
-            [Remote("EmailIsUniquied", "CustContact", AdditionalFields = "客戶Id", ErrorMessage ="客戶聯絡人電子郵件資料重複！")]
+            [Remote("EmailIsUniquied", "CustContact", AdditionalFields = "客戶Id, Id", ErrorMessage = "客戶聯絡人電子郵件資料重複！")]
             public string Email { get; set; }
 
             [DataType(DataType.PhoneNumber)]
@@ -56,6 +56,6 @@ namespace MVCHomeWork.Models {
             }
 
             return resultValue;
-        }
+        }        
     }
 }
