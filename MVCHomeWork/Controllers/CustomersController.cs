@@ -238,6 +238,18 @@ namespace MVCHomeWork.Controllers
             return PartialView("GridDataPartialView", Gmodel.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0).Take(PageCount));
         }
 
+
+        public ActionResult CustomDetailList() {
+            IEnumerable<CustomDetailVM> model;
+
+            model = from C in db.客戶資料
+                    select new CustomDetailVM() {
+                     客戶名稱 = C.客戶名稱, 聯絡人數量 = C.客戶聯絡人.Count(), 銀行帳戶數量 = C.客戶銀行資訊.Count()
+                    };
+
+            return View(model);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

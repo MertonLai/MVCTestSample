@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -168,6 +169,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CustModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomDetailVM.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\Partial\客戶聯絡人.cs" />
     <Compile Include="Models\Partial\客戶資料.cs" />
@@ -262,6 +264,7 @@
     <Content Include="Views\Shared\EditorTemplates\ContactJobTitle.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ContactJobTitle.cshtml" />
     <Content Include="Views\CustContact\ContactGridDataPartialView.cshtml" />
+    <Content Include="Views\Customers\CustomDetailList.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
