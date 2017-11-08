@@ -36,6 +36,10 @@ namespace MVCHomeWork.Models {
             [DataType(DataType.PhoneNumber)]
             public string 電話 { get; set; }
 
+            [Display(Name = "是否刪除")]
+            [Required(ErrorMessage = "請輸入{0}資料")]
+            public bool IsDelete { get; set; }
+
         }
 
 
