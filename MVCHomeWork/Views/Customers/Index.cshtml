@@ -1,10 +1,10 @@
 ﻿@model MVCHomeWork.Models.CustomerViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "客戶資料";
 }
 
-<h2>客戶資料</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("新增客戶資料", "Create", null, new { @class = "btn .btn-link" })
@@ -19,13 +19,14 @@
         <input type="submit" id="btnSerch" value="查詢" class="btn btn-primary" />
     </div>
 }
-@Html.Action("GridData", Model)
+
+@Html.Action("GridData", "Customers", Model)
 
 
 <script type="text/javascript">
     function sortdata(sortCol) {
-        if ($("#od").val() === sortCol) {
-            if ($("#st").val() === "D") {
+        if ($("#od").val() == sortCol) {
+            if ($("#st").val() == "D") {
                 $("#st").val("A");
             } else {
                 $("#st").val("D");

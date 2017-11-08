@@ -1,0 +1,9 @@
+﻿@model int?
+@{ 
+    int _TmpData = 0;
+    if (Model.HasValue) {
+        _TmpData = Model.Value;
+    }
+    IEnumerable<SelectListItem> CustCardList = new MVCHomeWork.BLL.SysUtility().GetCustTypesList(_TmpData);
+}
+@Html.DropDownList("", CustCardList, new { @id = "CustCardType" })

@@ -152,6 +152,7 @@
     </Compile>
     <Compile Include="BLL\IBLL.cs" />
     <Compile Include="BLL\SysUtility.cs" />
+    <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\CustModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -258,6 +259,9 @@
     <Content Include="Views\Shared\EditorTemplates\CustCardType.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CustCardType.cshtml" />
     <Content Include="Views\Customers\GridDataPartialView.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ContactJobTitle.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\ContactJobTitle.cshtml" />
+    <Content Include="Views\CustContact\ContactGridDataPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -19,9 +19,9 @@ namespace MVCHomeWork.Controllers
         {
             IEnumerable<客戶銀行資訊> model = new List<客戶銀行資訊>();
             if (string.IsNullOrEmpty(keyword)) {
-                model = db.客戶銀行資訊.Include(客 => 客.客戶資料).Take(20);
+                model = db.客戶銀行資訊.Where(b => b.IsDelete == false).Include(客 => 客.客戶資料).Take(20);
             } else {
-                model = db.客戶銀行資訊.Include(客 => 客.客戶資料).Where(b => b.帳戶號碼.Contains(keyword) || b.帳戶名稱.Contains(keyword)).Take(20);
+                model = db.客戶銀行資訊.Where(b => b.IsDelete == false).Include(客 => 客.客戶資料).Where(b => b.帳戶號碼.Contains(keyword) || b.帳戶名稱.Contains(keyword)).Take(20);
             }
                 
             return View(model);
@@ -123,7 +123,8 @@ namespace MVCHomeWork.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
-            db.客戶銀行資訊.Remove(客戶銀行資訊);
+            客戶銀行資訊.IsDelete = true;
+            //db.客戶銀行資訊.Remove(客戶銀行資訊);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,0 +1,9 @@
+﻿@model string
+@{ 
+    string _TmpData = "";
+    if (!string.IsNullOrWhiteSpace(Model)) {
+        _TmpData = Model;
+    }
+    IEnumerable<SelectListItem> JobTitleList = new MVCHomeWork.BLL.SysUtility().GetJobTitleList(_TmpData);
+}
+@Html.DropDownList("", JobTitleList, new { @id = "JobTitleList" })

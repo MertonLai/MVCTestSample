@@ -122,12 +122,17 @@ namespace MVCHomeWork.Controllers
             客戶資料 客戶資料 = db.客戶資料.Find(id);
 
             var CustConst = db.客戶聯絡人.Where(c => c.客戶Id == id).AsEnumerable();
-            db.客戶聯絡人.RemoveRange(CustConst);
+            foreach (var item in CustConst) {
+                item.IsDelete = true;
+            }
 
             var CustBank = db.客戶銀行資訊.Where(b => b.客戶Id == id).AsEnumerable();
-            db.客戶銀行資訊.RemoveRange(CustBank);
+            foreach (var item in CustBank) {
+                item.IsDelete = true;
+            }
 
-            db.客戶資料.Remove(客戶資料);
+            客戶資料.IsDelete = true;
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -138,9 +143,9 @@ namespace MVCHomeWork.Controllers
             IEnumerable<客戶資料> Gmodel = new List<客戶資料>();
 
             if (string.IsNullOrEmpty(SearchData.keyword) && !SearchData.CustCardType.HasValue) {
-                Gmodel = db.客戶資料;
+                Gmodel = db.客戶資料.Where(c => c.IsDelete == false);
             } else {
-                Gmodel = db.客戶資料;
+                Gmodel = db.客戶資料.Where(c => c.IsDelete == false);
 
                 // 查詢條件以名稱及統一編號當條件
                 if (!string.IsNullOrWhiteSpace(SearchData.keyword)) {
@@ -229,9 +234,8 @@ namespace MVCHomeWork.Controllers
 
             #endregion 排序處理
 
-            Gmodel.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0).Take(PageCount);
 
-            return PartialView("GridDataPartialView", Gmodel);
+            return PartialView("GridDataPartialView", Gmodel.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0).Take(PageCount));
         }
 
         protected override void Dispose(bool disposing)
