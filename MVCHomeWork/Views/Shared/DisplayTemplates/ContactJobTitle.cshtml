@@ -4,6 +4,6 @@
     if (!string.IsNullOrWhiteSpace(Model)) {
         _TmpData = Model;
     }
-    var data = new MVCHomeWork.BLL.SysUtility().GetJobTitleName(_TmpData);
+    var data = new MVCHomeWork.Controllers.TemplateDataController().GetJobTitleName(_TmpData);
     @Html.Encode(data);
 }
