@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace MVCHomeWork.Controllers
 {
-    public class TemplateDataController : Controller {
+    public class TemplateDataController : BaseController {
 
         IBLL _BLL = new SysUtility();
 
@@ -30,7 +30,7 @@ namespace MVCHomeWork.Controllers
             return _BLL.GetCustCartTypeName(_TmpData);
         }
 
-        public string GetJobTitleName(string SelectText) {
+        protected string GetJobTitleName(string SelectText) {
             string _TmpData = "";
             if (!string.IsNullOrWhiteSpace(SelectText)) {
                 _TmpData = SelectText;
@@ -38,7 +38,7 @@ namespace MVCHomeWork.Controllers
             return _BLL.GetJobTitleName(_TmpData);
         }
 
-        public IEnumerable<SelectListItem> GetJobTitleList(string SelectText) {
+        protected IEnumerable<SelectListItem> GetJobTitleList(string SelectText) {
             string _TmpData = "";
             if (!string.IsNullOrWhiteSpace(SelectText)) {
                 _TmpData = SelectText;

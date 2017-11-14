@@ -13,7 +13,7 @@
     <p>
         @Html.LabelFor(m => m.keyword, new { @class = "label label-default" })
         @Html.TextBoxFor(m => m.keyword, null, new { @id = "keyword", @class = "text-primary", @placeholder = "客戶姓名、公司統一編號、聯絡人姓名" })
-        @Html.DropDownList("ContactJobTitle", ViewBag.JobTitleList as IEnumerable<SelectListItem>, new { @id = "ContactJobTitle" })
+        @Html.DropDownList("ContactJobTitle", ViewBag.JobTitleList as IEnumerable<SelectListItem>, new { @id = "ContactJobTitle", @onchange = "changeType();" })
         @Html.HiddenFor(m => m.od, new { @id = "od" })
         @Html.HiddenFor(m => m.st, new { @id = "st" })
         <input type="submit" id="btnSerch" value="查詢" class="btn btn-primary" />
@@ -35,6 +35,10 @@
             $("#od").val(sortTCol);
             $("#st").val("A");
         }
+        $("#btnSerch").click();
+    }
+
+    function changeType() {
         $("#btnSerch").click();
     }
 </script>

@@ -3,7 +3,8 @@
 @{
     ViewBag.Title = "客戶資料";
 }
-
+<link rel="stylesheet" type="text/css" href="http://jqwidgets.com/jquery-widgets-demo/jqwidgets/styles/jqx.base.css" />
+<script type="text/javascript" src="http://jqwidgets.com/jquery-widgets-demo/jqwidgets/jqx-all.js"></script>
 <h2>@ViewBag.Title</h2>
 
 <p>
@@ -11,18 +12,89 @@
 </p>
 @using (Html.BeginForm(actionName: "Index", controllerName: "Customers", method: FormMethod.Get, htmlAttributes: new { @id = "CustForm" })) {
     <div class="form-group">
-        @Html.LabelFor(m => m.keyword, new { @class = "label label-default" })
-        @Html.TextBoxFor(m => m.keyword, null, new { @id = "keyword", @class = "text-primary", @placeholder = "客戶名稱或統一編號" })
-        @Html.DropDownList("CustCardType", ViewBag.CustCard as IEnumerable<SelectListItem>, new { @id = "CustCardType" })
+        <div class="form-control">
+            @Html.LabelFor(m => m.keyword, new { @class = "label label-default" })
+            @Html.TextBoxFor(m => m.keyword, null, new { @id = "keyword", @class = "text-primary", @placeholder = "客戶名稱或統一編號" })
+        </div>
         @Html.HiddenFor(m => m.od, new { @id = "od" })
         @Html.HiddenFor(m => m.st, new { @id = "st" })
         <input type="submit" id="btnSerch" value="查詢" class="btn btn-primary" />
     </div>
+    <div class="form-control-static">
+        <label for="CustCardType" class="label label-default">客戶分類</label>
+        @Html.DropDownList("CustCardType", ViewBag.CustCard as IEnumerable<SelectListItem>, new { @id = "CustCardType", @onchange = "changeType();" })
+    </div>
 }
 
-@Html.Action("GridData", "Customers", Model)
+<div id="GridBody" class="table table-bordered">
+    @*@Html.Action("GridData", "Customers", Model)*@
 
+    <table class="table">
+        <tr>
 
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().客戶名稱)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().客戶名稱)">
+            </th>
+            <th>
+
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().統一編號)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().統一編號)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().電話)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().電話)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().傳真)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().傳真)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().地址)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().地址)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().Email)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().Email)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().客戶分類)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().客戶分類)">
+            </th>
+
+            <th></th>
+        </tr>
+        @foreach (var item in Model.GridModel) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.客戶名稱)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.統一編號)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.電話)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.傳真)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.地址)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.客戶分類, "CustCardType")
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+        @if (Model.GridModel.Count() <= 0) {
+            <tr>
+                <td colspan="8" class="label label-success">No Records</td>
+            </tr>
+        }
+    </table>
+
+</div>
 <script type="text/javascript">
     function sortdata(sortCol) {
         if ($("#od").val() == sortCol) {
@@ -35,6 +107,12 @@
             $("#od").val(sortCol);
             $("#st").val("A");
         }
+
         $("#btnSerch").click();
     }
+
+    function changeType() {
+        $("#btnSerch").click();
+    }
+
 </script>

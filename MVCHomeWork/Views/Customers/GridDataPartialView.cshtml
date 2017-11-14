@@ -63,4 +63,19 @@
             </tr>
         }
     </table>
-    
+<script type="text/javascript">
+    function sortdata(sortCol) {
+        if ($("#od").val() == sortCol) {
+            if ($("#st").val() == "D") {
+                $("#st").val("A");
+            } else {
+                $("#st").val("D");
+            }
+        } else {
+            $("#od").val(sortCol);
+            $("#st").val("A");
+        }
+
+        $("#btnSerch").click();
+    }
+</script>    

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace MVCHomeWork.Models {
 
@@ -69,6 +70,101 @@ namespace MVCHomeWork.Models {
             { 99, "黑名單"}
         };
 
+        public IEnumerable<客戶資料> GetCustomerData(string keyword, int? CustCardType, string od, string st) {
+            Models.CustomEntities db = new CustomEntities();
 
+
+            var Gmodel = db.客戶資料.Where(c => c.IsDelete == false);
+            if (!string.IsNullOrEmpty(keyword) || CustCardType.HasValue) {                
+            
+                // 查詢條件以名稱及統一編號當條件
+                if (!string.IsNullOrWhiteSpace(keyword)) {
+                    Gmodel = Gmodel.Where(c => c.客戶名稱.Contains(keyword) || c.統一編號.Contains(keyword));
+                }
+
+                if (CustCardType.HasValue && CustCardType.Value > 0) {
+                    Gmodel = Gmodel.Where(c => c.客戶分類 == CustCardType.Value);
+                }
+            }
+
+            #region 排序處理
+
+            switch (od) {
+                case "客戶名稱":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.客戶名稱);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.客戶名稱);
+                            break;
+                    }
+                    break;
+                case "電子郵件":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.Email);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.Email);
+                            break;
+                    }
+                    break;
+                case "統一編號":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.統一編號);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.統一編號);
+                            break;
+                    }
+                    break;
+                case "電話":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.電話);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.電話);
+                            break;
+                    }
+                    break;
+                case "傳真":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.傳真);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.傳真);
+                            break;
+                    }
+                    break;
+                case "地址":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.地址);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.地址);
+                            break;
+                    }
+                    break;
+                case "客戶分類":
+                    switch (st) {
+                        case "D":
+                            Gmodel = Gmodel.OrderByDescending(c => c.客戶分類);
+                            break;
+                        default:
+                            Gmodel = Gmodel.OrderBy(c => c.客戶分類);
+                            break;
+                    }
+                    break;
+            }
+
+            #endregion 排序處理
+
+            return Gmodel;
+        }
     }
 }

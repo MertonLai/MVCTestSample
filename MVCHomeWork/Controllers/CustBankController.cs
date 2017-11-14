@@ -10,9 +10,9 @@ using MVCHomeWork.Models;
 
 namespace MVCHomeWork.Controllers
 {
-    public class CustBankController : Controller
-    {
-        private CustomEntities db = new CustomEntities();
+    public class CustBankController : BaseController {
+
+        
 
         // GET: CustBank
         public ActionResult Index(string keyword)

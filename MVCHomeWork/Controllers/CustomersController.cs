@@ -7,14 +7,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCHomeWork.Models;
+using DataTables.AspNet.Core;
+using DataTables.AspNet.Mvc5;
 
 namespace MVCHomeWork.Controllers
 {
-    public class CustomersController : Controller
+    public class CustomersController : BaseController
     {
-        private CustomEntities db = new CustomEntities();
-        int PageCount = 20;
+
+
         // GET: Customers
+        //public ActionResult Index(string keyword, int? CustCardType, string od, string st) {
         public ActionResult Index(string keyword, int? CustCardType, string od, string st) {
 
             CustomerViewModel model = new CustomerViewModel() {
@@ -26,6 +29,7 @@ namespace MVCHomeWork.Controllers
 
             ViewBag.CustCard = new BLL.SysUtility().GetCustTypesList((CustCardType.HasValue ? CustCardType.Value : 0));
 
+            model.GridModel = new 客戶資料().GetCustomerData(model.keyword, model.CustCardType, model.od, model.st).Take(PageCount);
 
             return View(model);
         }
@@ -48,7 +52,8 @@ namespace MVCHomeWork.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            return View();
+            客戶資料 model = new 客戶資料();
+            return View(model);
         }
 
         // POST: Customers/Create
@@ -138,117 +143,17 @@ namespace MVCHomeWork.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult GridData(int? PageIndex, CustomerViewModel SearchData) {
+        //public ActionResult GridData(int? PageIndex, CustomerViewModel SearchData) {
 
-            IEnumerable<客戶資料> Gmodel = new List<客戶資料>();
+        //    IEnumerable<客戶資料> Gmodel = new List<客戶資料>();
 
-            if (string.IsNullOrEmpty(SearchData.keyword) && !SearchData.CustCardType.HasValue) {
-                Gmodel = db.客戶資料.Where(c => c.IsDelete == false);
-            } else {
-                Gmodel = db.客戶資料.Where(c => c.IsDelete == false);
-
-                // 查詢條件以名稱及統一編號當條件
-                if (!string.IsNullOrWhiteSpace(SearchData.keyword)) {
-                    Gmodel = Gmodel.Where(c => c.客戶名稱.Contains(SearchData.keyword) || c.統一編號.Contains(SearchData.keyword));
-                }
-
-                if (SearchData.CustCardType.HasValue && SearchData.CustCardType.Value > 0) {
-                    Gmodel = Gmodel.Where(c => c.客戶分類 == SearchData.CustCardType.Value);
-                }
-            }
-
-            #region 排序處理
-
-            switch (SearchData.od) {
-                case "客戶名稱":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.客戶名稱);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.客戶名稱);
-                            break;
-                    }
-                    break;
-                case "電子郵件":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.Email);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.Email);
-                            break;
-                    }
-                    break;
-                case "統一編號":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.統一編號);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.統一編號);
-                            break;
-                    }
-                    break;
-                case "電話":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.電話);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.電話);
-                            break;
-                    }
-                    break;
-                case "傳真":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.傳真);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.傳真);
-                            break;
-                    }
-                    break;
-                case "地址":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.地址);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.地址);
-                            break;
-                    }
-                    break;
-                case "客戶分類":
-                    switch (SearchData.st) {
-                        case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.客戶分類);
-                            break;
-                        default:
-                            Gmodel = Gmodel.OrderBy(c => c.客戶分類);
-                            break;
-                    }
-                    break;
-            }
-
-            #endregion 排序處理
+        //    Gmodel = new 客戶資料().GetCustomerData(SearchData);
 
 
-            return PartialView("GridDataPartialView", Gmodel.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0).Take(PageCount));
-        }
+        //    return PartialView("GridDataPartialView", Gmodel.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0));
+        //}
 
 
-        public ActionResult CustomDetailList() {
-            IEnumerable<CustomDetailVM> model;
-
-            model = from C in db.客戶資料
-                    select new CustomDetailVM() {
-                     客戶名稱 = C.客戶名稱, 聯絡人數量 = C.客戶聯絡人.Count(), 銀行帳戶數量 = C.客戶銀行資訊.Count()
-                    };
-
-            return View(model);
-        }
 
         protected override void Dispose(bool disposing)
         {

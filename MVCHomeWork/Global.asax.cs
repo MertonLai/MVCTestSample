@@ -13,6 +13,13 @@ namespace MVCHomeWork {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            DataTables.AspNet.Mvc5.Configuration.RegisterDataTables();
+
+            ViewEngines.Engines.Clear();
+
+            // 強制指定使用Razor ViewEngine
+            ViewEngines.Engines.Add(new RazorViewEngine());
         }
     }
 }

@@ -10,10 +10,10 @@ using MVCHomeWork.Models;
 
 namespace MVCHomeWork.Controllers
 {
-	public class CustContactController : Controller
+	public class CustContactController : BaseController
 	{
-		private CustomEntities db = new CustomEntities();
-        int PageCount = 20;
+		
+        
 
         // GET: CustContact
         public ActionResult Index(string keyword, string ContactJobTitle, string od, string st)
@@ -143,18 +143,22 @@ namespace MVCHomeWork.Controllers
 			return RedirectToAction("Index");
 		}
 
-		public JsonResult EmailIsUniquied(int? Id, int 客戶Id, string Email) {
-			if(db.客戶聯絡人.Any(c => c.Id == Id && c.Email == Email)) {
-				return Json(true, JsonRequestBehavior.AllowGet);
-			} else {
-				if (db.客戶聯絡人.Any(c => c.客戶Id == 客戶Id && c.Email == Email)) {
-					return Json(false, JsonRequestBehavior.AllowGet);
-				} else {
-					return Json(true, JsonRequestBehavior.AllowGet);
-				}
-			}
-			
-		}
+        /// <summary>
+        /// 畫面即時驗證同一客戶的聯絡人電子郵件是否重複
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="客戶Id"></param>
+        /// <param name="Email"></param>
+        /// <returns></returns>
+        public JsonResult EmailIsUniquied(int? Id, int 客戶Id, string Email) {
+
+            if (db.客戶聯絡人.Any(c => c.Id != Id && c.客戶Id == 客戶Id && c.Email == Email)) {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            } else {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+        }
 
 		[ChildActionOnly]
 		public ActionResult ContactInfo(int Id) {

@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace MVCHomeWork.Models {
 
     [MetadataType(typeof(客戶聯絡人.Model))]
-    public partial class 客戶聯絡人 {
+    public partial class 客戶聯絡人 : IValidatableObject {
         private class Model {
 
             [Required(ErrorMessage = "請輸入{0}資料")]
@@ -60,6 +60,16 @@ namespace MVCHomeWork.Models {
             }
 
             return resultValue;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
+            if (!string.IsNullOrEmpty(this.Email)) {
+                using (CustomEntities db = new CustomEntities()) {
+                    if (db.客戶聯絡人.Any(c => c.客戶Id == this.客戶Id && c.Email == this.Email && c.Id != this.Id)) {
+                        yield return new ValidationResult("同一客戶的聯絡人Email有重複", new string[] { "客戶Id", "Email" });
+                    }
+                }
+            } 
         }
 
         public Dictionary<int, string> JobTitleList = new Dictionary<int, string>() {
