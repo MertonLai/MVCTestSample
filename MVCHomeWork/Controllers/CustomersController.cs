@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using MVCHomeWork.Models;
 using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
+using Newtonsoft.Json;
+using MVCHomeWork.Infrastructure.CustomResults;
+using MVCHomeWork.Infrastructure;
 
 namespace MVCHomeWork.Controllers
 {
@@ -142,7 +145,25 @@ namespace MVCHomeWork.Controllers
             return RedirectToAction("Index");
         }
 
-        [ChildActionOnly]
+        public ActionResult ExportData(string keyword, int? CustCardType, string od, string st) {
+            var data = new 客戶資料().GetCustomerData(keyword, CustCardType, od, st).ToList();
+
+            var dt = ListToDatatable.ListToDataTable<客戶資料>(data);
+
+
+            var expFileName = string.Concat(
+                "CustomerData", DateTime.Now.ToString("yyyyMMddHHmmss"), ".xlsx"
+                );
+
+            return new ExportExcelResult {
+                SheetName = "客戶基本資料",
+                ExportData = dt,
+                FileName = expFileName
+            };
+
+        }
+
+        //[ChildActionOnly]
         //public ActionResult GridData(int? PageIndex, CustomerViewModel SearchData) {
 
         //    IEnumerable<客戶資料> Gmodel = new List<客戶資料>();

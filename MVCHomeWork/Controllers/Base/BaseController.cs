@@ -12,6 +12,7 @@ namespace MVCHomeWork.Controllers
         protected CustomEntities db = new CustomEntities();
         protected int PageCount = 20;
 
+
         protected override void Dispose(bool disposing) {
             if (disposing) {
                 db.Dispose();

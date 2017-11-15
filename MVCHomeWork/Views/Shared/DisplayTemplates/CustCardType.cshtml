@@ -4,6 +4,6 @@
     if (Model.HasValue) {
         _TmpData = Model.Value;
     }
-    var data = new MVCHomeWork.Controllers.TemplateDataController().GetCustCartTypeName(_TmpData);
+    var data = new MVCHomeWork.BLL.SysUtility().GetCustCartTypeName(_TmpData);
     @Html.Encode(data);
 }

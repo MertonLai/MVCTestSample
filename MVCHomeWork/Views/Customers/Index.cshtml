@@ -25,7 +25,9 @@
         @Html.DropDownList("CustCardType", ViewBag.CustCard as IEnumerable<SelectListItem>, new { @id = "CustCardType", @onchange = "changeType();" })
     </div>
 }
-
+<div class="row">
+    <input id="ExportData" type="button" class="btn btn-link" value="匯出EXCEL" onclick=""/>
+</div>
 <div id="GridBody" class="table table-bordered">
     @*@Html.Action("GridData", "Customers", Model)*@
 
@@ -114,5 +116,17 @@
     function changeType() {
         $("#btnSerch").click();
     }
+
+    $(document).ready(function () {
+        $("#ExportData").click(function (e) {
+            var KW = $("#keyword").val();
+            var CT = $("#CustCardType").val();
+            var OD = $("#od").val();
+            var ST = $("#st").val();
+            e.preventDefault();
+
+            window.location.href = "@Url.Action("ExportData", "Customers")?keyword=" + KW + "&CustCardType=" + CT + "&od=" + OD + "&st=" + ST;
+        });
+    });
 
 </script>

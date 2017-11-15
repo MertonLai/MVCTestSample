@@ -178,12 +178,13 @@
     <Compile Include="Controllers\CustContactController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\TemplateDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="BLL\IBLL.cs" />
-    <Compile Include="BLL\SysUtility.cs" />
+    <Compile Include="Infrastructure\BLL\IBLL.cs" />
+    <Compile Include="Infrastructure\BLL\SysUtility.cs" />
+    <Compile Include="Infrastructure\ListToDatatable.cs" />
+    <Compile Include="Infrastructure\CustomResults\ExportExcelResult .cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\CustModel.Context.cs">
       <AutoGen>True</AutoGen>
