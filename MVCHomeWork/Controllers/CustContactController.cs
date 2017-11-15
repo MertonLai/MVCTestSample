@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using MVCHomeWork.Models;
 using MVCHomeWork.Infrastructure;
 using MVCHomeWork.Infrastructure.CustomResults;
+using Newtonsoft.Json;
 
 namespace MVCHomeWork.Controllers
 {
@@ -33,6 +34,8 @@ namespace MVCHomeWork.Controllers
 
             return View(model);
 		}
+
+        
 
 		// GET: CustContact/Details/5
 		public ActionResult Details(int? id)
@@ -156,7 +159,7 @@ namespace MVCHomeWork.Controllers
         /// <returns></returns>
         public JsonResult EmailIsUniquied(int? Id, int 客戶Id, string Email) {
 
-            if (db.客戶聯絡人.Any(c => c.Id != Id && c.客戶Id == 客戶Id && c.Email == Email)) {
+            if (db.客戶聯絡人.Any(c => c.IsDelete == false && c.Id != Id && c.客戶Id == 客戶Id && c.Email == Email)) {
                 return Json(false, JsonRequestBehavior.AllowGet);
             } else {
                 return Json(true, JsonRequestBehavior.AllowGet);

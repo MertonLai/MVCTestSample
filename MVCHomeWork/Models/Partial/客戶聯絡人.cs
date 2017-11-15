@@ -65,7 +65,7 @@ namespace MVCHomeWork.Models {
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) {
             if (!string.IsNullOrEmpty(this.Email)) {
                 using (CustomEntities db = new CustomEntities()) {
-                    if (db.客戶聯絡人.Any(c => c.客戶Id == this.客戶Id && c.Email == this.Email && c.Id != this.Id)) {
+                    if (db.客戶聯絡人.Any(c => c.IsDelete == false && c.客戶Id == this.客戶Id && c.Email == this.Email && c.Id != this.Id)) {
                         yield return new ValidationResult("同一客戶的聯絡人Email有重複", new string[] { "客戶Id", "Email" });
                     }
                 }

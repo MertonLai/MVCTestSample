@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -18,7 +19,7 @@ namespace MVCHomeWork.Models {
             public string 銀行名稱 { get; set; }
 
             [Required(ErrorMessage = "請輸入{0}資料")]
-            [RegularExpression("^[0-9]*$", ErrorMessage ="{0} 只能輸入數字")]
+            [RegularExpression("^[0-9]*$", ErrorMessage = "{0} 只能輸入數字")]
             public int 銀行代碼 { get; set; }
 
             [RegularExpression("^[0-9]*$", ErrorMessage = "{0} 只能輸入數字")]
@@ -53,5 +54,28 @@ namespace MVCHomeWork.Models {
 
             return resultValue;
         }
+
+        /// <summary>
+        /// 取得客戶銀行資料
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        public IEnumerable<客戶銀行資訊> GetCustBankData(string keyword) {
+            Models.CustomEntities db = new CustomEntities();
+
+            IEnumerable<客戶銀行資訊> data = new List<客戶銀行資訊>();
+
+            data = db.客戶銀行資訊.Where(b => b.IsDelete == false);
+
+            if (!string.IsNullOrEmpty(keyword)) {
+                data = db.客戶銀行資訊.Where(b => b.IsDelete == false && (b.帳戶號碼.Contains(keyword) || b.帳戶名稱.Contains(keyword)));
+            }
+            return data;
+
+        }
+
+        
     }
+
+
 }

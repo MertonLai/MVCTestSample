@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCHomeWork.Models;
+using Newtonsoft.Json;
 
 namespace MVCHomeWork.Controllers
 {
@@ -18,16 +19,39 @@ namespace MVCHomeWork.Controllers
         public ActionResult Index(string keyword)
         {
             IEnumerable<客戶銀行資訊> model = new List<客戶銀行資訊>();
-            if (string.IsNullOrEmpty(keyword)) {
-                model = db.客戶銀行資訊.Where(b => b.IsDelete == false).Include(客 => 客.客戶資料).Take(20);
-            } else {
-                model = db.客戶銀行資訊.Where(b => b.IsDelete == false).Include(客 => 客.客戶資料).Where(b => b.帳戶號碼.Contains(keyword) || b.帳戶名稱.Contains(keyword)).Take(20);
-            }
-                
+
+            ViewBag.SearchKey = keyword;
+
+            model = new 客戶銀行資訊().GetCustBankData(keyword).Take(PageCount);
+
             return View(model);
         }
 
-        
+        public ActionResult GetBankData(string keyword) {
+            var GridModel = (from B in new 客戶銀行資訊().GetCustBankData(keyword).Take(PageCount).AsEnumerable()
+                             select new {
+                                 Id = B.Id,
+                                 銀行名稱 = B.銀行名稱,
+                                 銀行代碼 = B.銀行代碼,
+                                 分行代碼 = B.分行代碼,
+                                 帳戶名稱 = B.帳戶名稱,
+                                 帳戶號碼 = B.帳戶號碼,
+                                 客戶名稱 = B.客戶資料.客戶名稱
+                             }).ToList();
+
+            try {
+                var data = JsonConvert.SerializeObject(GridModel, Formatting.None);
+                return Json(data, JsonRequestBehavior.AllowGet);
+            } catch (Exception ex) {
+
+                throw ex;
+            }
+
+            
+
+            
+
+        }
 
         // GET: CustBank/Details/5
         public ActionResult Details(int? id)

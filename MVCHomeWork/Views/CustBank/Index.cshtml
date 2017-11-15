@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MVCHomeWork.Models.客戶銀行資訊>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "客戶銀行資訊";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,59 +12,105 @@
 @using (Html.BeginForm(actionName: "Index", controllerName: "CustBank", method: FormMethod.Get)) {
     <p>
         <label for="keyword" class="label label-default">Search</label>
-        <input type="text" id="keyword" name="keyword" class="text-primary" />
-        <input type="submit" value="查詢" class="btn btn-primary" />
+        <input type="text" id="keyword" name="keyword" value="" class="text-primary" />
+        @*<input type="submit" value="查詢" class="btn btn-primary" />*@
     </p>
 }
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.銀行名稱)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.銀行代碼)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.分行代碼)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.帳戶名稱)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.帳戶號碼)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.銀行名稱)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.銀行代碼)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.分行代碼)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.帳戶名稱)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.帳戶號碼)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+<input type="button" value="JQ查詢" class="btn btn-primary" onclick="Getdata()" />
 
-</table>
+<div class="list-group">
+    <table id="CustBankDataGrid" class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.銀行名稱)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.銀行代碼)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.分行代碼)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.帳戶名稱)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.帳戶號碼)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.銀行名稱)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.銀行代碼)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.分行代碼)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.帳戶名稱)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.帳戶號碼)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<script type="text/javascript">
+
+   
+    function Getdata() {
+        var KW = $("#keyword").val();
+
+        $.ajax({
+            url: "@Url.Action("GetBankData", "CustBank")",
+            type: "POST",
+            async: true,
+            data: JSON.stringify({ keyword: KW }),
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            error: function () {
+                alert("Server access failure!");
+            },
+            success: function (data) {
+                var DT = $.parseJSON(data);
+
+                var table = $("#CustBankDataGrid");
+                table.find("tr:gt(0)").remove();
+
+                var tr;
+                for (var i = 0; i < DT.length; ++i) {
+
+                    tr = $("<tr/>");
+                    tr.append("<td>" + DT[i]["銀行名稱"] + "</td>");
+                    tr.append("<td>" + DT[i]["銀行代碼"] + "</td>");
+                    tr.append("<td>" + DT[i]["分行代碼"] + "</td>");
+                    tr.append("<td>" + DT[i]["帳戶名稱"] + "</td>");
+                    tr.append("<td>" + DT[i]["帳戶號碼"] + "</td>");
+                    tr.append("<td>" + DT[i]["客戶名稱"] + "</td>");
+                    tr.append("<td><a href=\"@Url.Action("Edit", "CustBank")" + DT[i]["Id"] + "\">Edit</a> | <a href=\"@Url.Action("Details", "CustBank")" + DT[i]["Id"] + "\">Details</a> | <a href=\"@Url.Action("Delete", "CustBank")" + DT[i]["Id"] + "\">Delete</a></td>");
+                    $('table').append(tr);
+                }
+
+            }
+        });
+    }
+</script>
