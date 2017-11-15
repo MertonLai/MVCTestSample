@@ -146,9 +146,22 @@ namespace MVCHomeWork.Controllers
         }
 
         public ActionResult ExportData(string keyword, int? CustCardType, string od, string st) {
-            var data = new 客戶資料().GetCustomerData(keyword, CustCardType, od, st).ToList();
+            var data = from C in new 客戶資料().GetCustomerData(keyword, CustCardType, od, st).AsEnumerable()
+                       select new {
+                           客戶編號 = C.Id,
+                           客戶名稱 = C.客戶名稱,
+                           客戶分類 = _BLL.GetCustCartTypeName(C.客戶分類),
+                           統一編號 = C.統一編號,
+                           Email = C.Email,
+                           電話 = C.電話,
+                           傳真 = C.傳真,
+                           地址 = C.地址,
+                           是否刪除 = _BLL.GetDeleteStstus(C.IsDelete)
+                       };
 
-            var dt = ListToDatatable.ListToDataTable<客戶資料>(data);
+
+            var dt = LinqExtensions.LinqQueryToDataTable(data);
+            //ListToDatatable.ListToDataTable<客戶資料>(data);
 
 
             var expFileName = string.Concat(

@@ -1,4 +1,5 @@
-﻿using MVCHomeWork.Models;
+﻿using MVCHomeWork.BLL;
+using MVCHomeWork.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace MVCHomeWork.Controllers
         protected CustomEntities db = new CustomEntities();
         protected int PageCount = 20;
 
+        protected IBLL _BLL = new SysUtility();
 
         protected override void Dispose(bool disposing) {
             if (disposing) {

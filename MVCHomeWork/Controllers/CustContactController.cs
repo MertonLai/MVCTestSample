@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCHomeWork.Models;
+using MVCHomeWork.Infrastructure;
+using MVCHomeWork.Infrastructure.CustomResults;
 
 namespace MVCHomeWork.Controllers
 {
@@ -24,6 +26,8 @@ namespace MVCHomeWork.Controllers
 				od = (string.IsNullOrEmpty(od) ? "" : od),
 				st = (string.IsNullOrEmpty(st) ? "A" : st)
 			};
+
+            model.GridModel = new 客戶聯絡人().GetCustContData(keyword, ContactJobTitle, od, st).Take(PageCount);
 
             ViewBag.JobTitleList = new BLL.SysUtility().GetJobTitleList(ContactJobTitle);
 
@@ -169,92 +173,121 @@ namespace MVCHomeWork.Controllers
 			return PartialView(model);
 		}
 
+        public ActionResult ExportData(string keyword, string ContactJobTitle, string od, string st) {
+            var data = from C in new 客戶聯絡人().GetCustContData(keyword, ContactJobTitle, od, st).AsEnumerable()
+                       select new {
+                           客戶編號 = C.Id,
+                           客戶名稱 = C.客戶資料.客戶名稱,
+                           姓名 =C.姓名,
+                           職稱 = _BLL.GetJobTitleName(C.職稱),
+                           Email = C.Email,
+                           電話 = C.電話,
+                           是否刪除 = _BLL.GetDeleteStstus(C.IsDelete)
+                       };
 
-        [ChildActionOnly]
-        public ActionResult GridData(int? PageIndex, ContactViewModel SearchData) {
 
-            IEnumerable<客戶聯絡人> model = new List<客戶聯絡人>();
+            var dt = LinqExtensions.LinqQueryToDataTable(data);
+            //ListToDatatable.ListToDataTable<客戶資料>(data);
 
-            if (string.IsNullOrWhiteSpace(SearchData.keyword)) {
-                model = db.客戶聯絡人.Where(c => c.IsDelete == false);
-            } else {
-                model = db.客戶聯絡人.Where(c => c.IsDelete == false || c.姓名.Contains(SearchData.keyword) || c.客戶資料.客戶名稱.Contains(SearchData.keyword) || c.客戶資料.統一編號.Contains(SearchData.keyword));
-            }
 
-            if (!string.IsNullOrWhiteSpace(SearchData.ContactJobTitle) && !SearchData.ContactJobTitle.Equals("未設定")) {
-                model = model.Where(c => c.職稱 == SearchData.ContactJobTitle);
-            }
+            var expFileName = string.Concat(
+                "客戶聯絡人", DateTime.Now.ToString("yyyyMMddHHmmss"), ".xlsx"
+                );
 
-            #region 排序處理
+            return new ExportExcelResult {
+                SheetName = "客戶聯絡人資料",
+                ExportData = dt,
+                FileName = expFileName
+            };
 
-            switch (SearchData.od) {
-                case "職稱":
-                    switch (SearchData.st) {
-                        case "D":
-                            model = model.AsEnumerable().OrderByDescending(c => c.職稱);
-                            break;
-                        default:
-                            model = model.OrderBy(c => c.職稱);
-                            break;
-                    }
-                    break;
-                case "姓名":
-                    switch (SearchData.st) {
-                        case "D":
-                            model = model.OrderByDescending(c => c.姓名);
-                            break;
-                        default:
-                            model = model.OrderBy(c => c.姓名);
-                            break;
-                    }
-                    break;
-                case "Email":
-                    switch (SearchData.st) {
-                        case "D":
-                            model = model.OrderByDescending(c => c.Email);
-                            break;
-                        default:
-                            model = model.OrderBy(c => c.Email);
-                            break;
-                    }
-                    break;
-                case "手機":
-                    switch (SearchData.st) {
-                        case "D":
-                            model = model.OrderByDescending(c => c.手機);
-                            break;
-                        default:
-                            model = model.OrderBy(c => c.手機);
-                            break;
-                    }
-                    break;
-                case "電話":
-                    switch (SearchData.st) {
-                        case "D":
-                            model = model.OrderByDescending(c => c.電話);
-                            break;
-                        default:
-                            model = model.OrderBy(c => c.電話);
-                            break;
-                    }
-                    break;
-                case "客戶名稱":
-                    switch (SearchData.st) {
-                        case "D":
-                            model = model.OrderByDescending(c => c.客戶資料.客戶名稱);
-                            break;
-                        default:
-                            model = model.OrderBy(c => c.客戶資料.客戶名稱);
-                            break;
-                    }
-                    break;
-                    
-            }
-
-            #endregion 排序處理
-
-            return PartialView("ContactGridDataPartialView", model.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0).Take(PageCount));
         }
+
+
+        //[ChildActionOnly]
+        //public ActionResult GridData(int? PageIndex, ContactViewModel SearchData) {
+
+        //    IEnumerable<客戶聯絡人> model = new List<客戶聯絡人>();
+
+        //    if (string.IsNullOrWhiteSpace(SearchData.keyword)) {
+        //        model = db.客戶聯絡人.Where(c => c.IsDelete == false);
+        //    } else {
+        //        model = db.客戶聯絡人.Where(c => c.IsDelete == false || c.姓名.Contains(SearchData.keyword) || c.客戶資料.客戶名稱.Contains(SearchData.keyword) || c.客戶資料.統一編號.Contains(SearchData.keyword));
+        //    }
+
+        //    if (!string.IsNullOrWhiteSpace(SearchData.ContactJobTitle) && !SearchData.ContactJobTitle.Equals("未設定")) {
+        //        model = model.Where(c => c.職稱 == SearchData.ContactJobTitle);
+        //    }
+
+        //    #region 排序處理
+
+        //    switch (SearchData.od) {
+        //        case "職稱":
+        //            switch (SearchData.st) {
+        //                case "D":
+        //                    model = model.AsEnumerable().OrderByDescending(c => c.職稱);
+        //                    break;
+        //                default:
+        //                    model = model.OrderBy(c => c.職稱);
+        //                    break;
+        //            }
+        //            break;
+        //        case "姓名":
+        //            switch (SearchData.st) {
+        //                case "D":
+        //                    model = model.OrderByDescending(c => c.姓名);
+        //                    break;
+        //                default:
+        //                    model = model.OrderBy(c => c.姓名);
+        //                    break;
+        //            }
+        //            break;
+        //        case "Email":
+        //            switch (SearchData.st) {
+        //                case "D":
+        //                    model = model.OrderByDescending(c => c.Email);
+        //                    break;
+        //                default:
+        //                    model = model.OrderBy(c => c.Email);
+        //                    break;
+        //            }
+        //            break;
+        //        case "手機":
+        //            switch (SearchData.st) {
+        //                case "D":
+        //                    model = model.OrderByDescending(c => c.手機);
+        //                    break;
+        //                default:
+        //                    model = model.OrderBy(c => c.手機);
+        //                    break;
+        //            }
+        //            break;
+        //        case "電話":
+        //            switch (SearchData.st) {
+        //                case "D":
+        //                    model = model.OrderByDescending(c => c.電話);
+        //                    break;
+        //                default:
+        //                    model = model.OrderBy(c => c.電話);
+        //                    break;
+        //            }
+        //            break;
+        //        case "客戶名稱":
+        //            switch (SearchData.st) {
+        //                case "D":
+        //                    model = model.OrderByDescending(c => c.客戶資料.客戶名稱);
+        //                    break;
+        //                default:
+        //                    model = model.OrderBy(c => c.客戶資料.客戶名稱);
+        //                    break;
+        //            }
+        //            break;
+                    
+        //    }
+
+        //    #endregion 排序處理
+
+        //    return PartialView("ContactGridDataPartialView", model.Skip(PageIndex.HasValue ? PageIndex.Value + PageCount : 0).Take(PageCount));
+        //}
 
         protected override void Dispose(bool disposing)
 		{

@@ -15,5 +15,7 @@ namespace MVCHomeWork.BLL {
 
         string GetJobTitleName(string CardTypeValue);
 
+
+        string GetDeleteStstus(bool? stuVal);
     }
 }

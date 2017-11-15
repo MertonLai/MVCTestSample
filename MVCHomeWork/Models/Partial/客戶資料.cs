@@ -8,10 +8,11 @@ namespace MVCHomeWork.Models {
     [MetadataType(typeof(客戶資料.Model))]
     public partial class 客戶資料 {
 
+        
 
         private class Model {
 
-            [Display(Name ="客戶編號")]
+            [Display(Name = "客戶編號")]
             public int Id { get; set; }
 
 
@@ -20,8 +21,8 @@ namespace MVCHomeWork.Models {
 
             [Required(ErrorMessage = "請輸入{0}資料")]
             [Index(IsUnique = true)]
-            [RegularExpression("^[0-9]*$", ErrorMessage ="{0} 只能是數字！！")]
-            [StringLength(8, ErrorMessage ="{1} 只能輸入 {1} 碼")]
+            [RegularExpression("^[0-9]*$", ErrorMessage = "{0} 只能是數字！！")]
+            [StringLength(8, ErrorMessage = "{1} 只能輸入 {1} 碼")]
             public string 統一編號 { get; set; }
 
             [Required(ErrorMessage = "請輸入{0}資料")]
@@ -31,13 +32,13 @@ namespace MVCHomeWork.Models {
             [DataType(DataType.PhoneNumber)]
             public string 傳真 { get; set; }
 
-            [Required(ErrorMessage ="請輸入{0}資料")]
-            [StringLength(100, ErrorMessage ="{0}只能輸入{1}個字數！！")]
+            [Required(ErrorMessage = "請輸入{0}資料")]
+            [StringLength(100, ErrorMessage = "{0}只能輸入{1}個字數！！")]
             public string 地址 { get; set; }
 
             [Required(ErrorMessage = "請輸入{0}資料")]
-            [Display(Name ="電子郵件")]
-            [DataType(DataType.EmailAddress, ErrorMessage ="{0}格式錯誤，請輸入正確電子郵件帳號")]
+            [Display(Name = "電子郵件")]
+            [DataType(DataType.EmailAddress, ErrorMessage = "{0}格式錯誤，請輸入正確電子郵件帳號")]
             public string Email { get; set; }
 
             [Required(ErrorMessage = "請輸入{0}資料")]
@@ -45,7 +46,7 @@ namespace MVCHomeWork.Models {
             [UIHint("CustCardType")]
             public int 客戶分類 { get; set; }
 
-            [Display(Name ="是否刪除")]
+            [Display(Name = "是否刪除")]
             [Required(ErrorMessage = "請輸入{0}資料")]
             public bool IsDelete { get; set; }
 
@@ -58,8 +59,6 @@ namespace MVCHomeWork.Models {
         /// </summary>
         /// <param name="SelectValue">選定代號</param>
         /// <returns></returns>
-        
-
         public Dictionary<int, string> CustTypeList = new Dictionary<int, string>() {
             { 0, "未設定"},
             { 1, "白金級VIP"},
@@ -70,20 +69,24 @@ namespace MVCHomeWork.Models {
             { 99, "黑名單"}
         };
 
+        
+
         public IEnumerable<客戶資料> GetCustomerData(string keyword, int? CustCardType, string od, string st) {
+            IEnumerable<客戶資料> data = new List<客戶資料>();
+
             Models.CustomEntities db = new CustomEntities();
 
 
-            var Gmodel = db.客戶資料.Where(c => c.IsDelete == false);
-            if (!string.IsNullOrEmpty(keyword) || CustCardType.HasValue) {                
-            
+            data = db.客戶資料.Where(c => c.IsDelete == false);
+            if (!string.IsNullOrEmpty(keyword) || CustCardType.HasValue) {
+
                 // 查詢條件以名稱及統一編號當條件
                 if (!string.IsNullOrWhiteSpace(keyword)) {
-                    Gmodel = Gmodel.Where(c => c.客戶名稱.Contains(keyword) || c.統一編號.Contains(keyword));
+                    data = data.Where(c => c.客戶名稱.Contains(keyword) || c.統一編號.Contains(keyword));
                 }
 
                 if (CustCardType.HasValue && CustCardType.Value > 0) {
-                    Gmodel = Gmodel.Where(c => c.客戶分類 == CustCardType.Value);
+                    data = data.Where(c => c.客戶分類 == CustCardType.Value);
                 }
             }
 
@@ -93,70 +96,70 @@ namespace MVCHomeWork.Models {
                 case "客戶名稱":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.客戶名稱);
+                            data = data.OrderByDescending(c => c.客戶名稱);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.客戶名稱);
+                            data = data.OrderBy(c => c.客戶名稱);
                             break;
                     }
                     break;
                 case "電子郵件":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.Email);
+                            data = data.OrderByDescending(c => c.Email);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.Email);
+                            data = data.OrderBy(c => c.Email);
                             break;
                     }
                     break;
                 case "統一編號":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.統一編號);
+                            data = data.OrderByDescending(c => c.統一編號);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.統一編號);
+                            data = data.OrderBy(c => c.統一編號);
                             break;
                     }
                     break;
                 case "電話":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.電話);
+                            data = data.OrderByDescending(c => c.電話);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.電話);
+                            data = data.OrderBy(c => c.電話);
                             break;
                     }
                     break;
                 case "傳真":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.傳真);
+                            data = data.OrderByDescending(c => c.傳真);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.傳真);
+                            data = data.OrderBy(c => c.傳真);
                             break;
                     }
                     break;
                 case "地址":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.地址);
+                            data = data.OrderByDescending(c => c.地址);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.地址);
+                            data = data.OrderBy(c => c.地址);
                             break;
                     }
                     break;
                 case "客戶分類":
                     switch (st) {
                         case "D":
-                            Gmodel = Gmodel.OrderByDescending(c => c.客戶分類);
+                            data = data.OrderByDescending(c => c.客戶分類);
                             break;
                         default:
-                            Gmodel = Gmodel.OrderBy(c => c.客戶分類);
+                            data = data.OrderBy(c => c.客戶分類);
                             break;
                     }
                     break;
@@ -164,9 +167,10 @@ namespace MVCHomeWork.Models {
 
             #endregion 排序處理
 
-            return Gmodel;
+ 
+            return data;
         }
 
-         
+
     }
 }

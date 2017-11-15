@@ -72,6 +72,102 @@ namespace MVCHomeWork.Models {
             } 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="ContactJobTitle"></param>
+        /// <param name="od"></param>
+        /// <param name="st"></param>
+        /// <returns></returns>
+        public IEnumerable<客戶聯絡人> GetCustContData(string keyword, string ContactJobTitle, string od, string st) {
+            IEnumerable<客戶聯絡人> data = new List<客戶聯絡人>();
+            Models.CustomEntities db = new CustomEntities();
+
+            data = db.客戶聯絡人.Where(c => c.IsDelete == false);
+
+            if (!string.IsNullOrWhiteSpace(keyword)) {
+
+                data = db.客戶聯絡人.Where(c => c.IsDelete == false || c.姓名.Contains(keyword) || c.客戶資料.客戶名稱.Contains(keyword) || c.客戶資料.統一編號.Contains(keyword));
+            }
+
+            if (!string.IsNullOrWhiteSpace(ContactJobTitle) && !ContactJobTitle.Equals("未設定")) {
+                data = data.Where(c => c.職稱 == ContactJobTitle);
+            }
+
+            #region 排序處理
+
+            switch (od) {
+                case "職稱":
+                    switch (st) {
+                        case "D":
+                            data = data.OrderByDescending(c => c.職稱);
+                            break;
+                        default:
+                            data = data.OrderBy(c => c.職稱);
+                            break;
+                    }
+                    break;
+                case "姓名":
+                    switch (st) {
+                        case "D":
+                            data = data.OrderByDescending(c => c.姓名);
+                            break;
+                        default:
+                            data = data.OrderBy(c => c.姓名);
+                            break;
+                    }
+                    break;
+                case "Email":
+                    switch (st) {
+                        case "D":
+                            data = data.OrderByDescending(c => c.Email);
+                            break;
+                        default:
+                            data = data.OrderBy(c => c.Email);
+                            break;
+                    }
+                    break;
+                case "手機":
+                    switch (st) {
+                        case "D":
+                            data = data.OrderByDescending(c => c.手機);
+                            break;
+                        default:
+                            data = data.OrderBy(c => c.手機);
+                            break;
+                    }
+                    break;
+                case "電話":
+                    switch (st) {
+                        case "D":
+                            data = data.OrderByDescending(c => c.電話);
+                            break;
+                        default:
+                            data = data.OrderBy(c => c.電話);
+                            break;
+                    }
+                    break;
+                case "客戶名稱":
+                    switch (st) {
+                        case "D":
+                            data = data.OrderByDescending(c => c.客戶資料.客戶名稱);
+                            break;
+                        default:
+                            data = data.OrderBy(c => c.客戶資料.客戶名稱);
+                            break;
+                    }
+                    break;
+
+            }
+
+            #endregion 排序處理
+
+           
+
+            return data;
+        }
+
         public Dictionary<int, string> JobTitleList = new Dictionary<int, string>() {
             { 0, "未設定"},
             { 1, "一般職員"},

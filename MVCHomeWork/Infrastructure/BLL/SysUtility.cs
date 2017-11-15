@@ -8,6 +8,23 @@ using System.Web.Mvc;
 namespace MVCHomeWork.BLL {
     public class SysUtility : IBLL {
 
+        protected Dictionary<bool, string> DeleteStatus = new Dictionary<bool, string>() {
+            {true, "已刪除"},
+            {false, "未刪除"}
+        };
+
+        public string GetDeleteStstus(bool? stuVal) {
+            if (stuVal.HasValue) {
+                if (DeleteStatus.ContainsKey(stuVal.Value)) {
+                    return DeleteStatus[stuVal.Value];
+                } else {
+                    return "";
+                }
+            } else {
+                return "";
+            }
+        }
+
         public IEnumerable<SelectListItem> GetCustTypesList(int SelectValue) {
             List<SelectListItem> returnValue = new List<SelectListItem>();
 

@@ -19,10 +19,67 @@
         <input type="submit" id="btnSerch" value="查詢" class="btn btn-primary" />
     </p>
 }
+<div class="row">
+    <div class="col col-md-3 col-lg-2">
+        <input id="ExportData" type="button" class="btn btn-link" value="匯出EXCEL" onclick="" />
+    </div>
+</div>
+<div id="GridBody" class="row tab-pane">
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortCTdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().職稱)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().職稱)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortCTdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().姓名)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().姓名)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortCTdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().Email)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().Email)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortCTdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().手機)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().手機)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortCTdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().電話)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().電話)">
+            </th>
+            <th>
+                <input type="button" class="btn btn-link" onclick="sortCTdata('@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().客戶資料.客戶名稱)')" value="@Html.DisplayNameFor(model => model.GridModel.FirstOrDefault().客戶資料.客戶名稱)">
+            </th>
+            <th></th>
+        </tr>
 
-@Html.Action("GridData", "CustContact", Model)
+        @foreach (var item in Model.GridModel) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.職稱)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.姓名)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.手機)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.電話)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
 
-<script type="text/javascript">
+    </table>
+    @*@Html.Action("GridData", "CustContact", Model)*@
+</div>
+    <script type="text/javascript">
     function sortCTdata(sortTCol) {
         debugger;
         if ($("#od").val() == sortTCol) {
@@ -41,4 +98,4 @@
     function changeType() {
         $("#btnSerch").click();
     }
-</script>
+    </script>
