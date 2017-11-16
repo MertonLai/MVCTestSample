@@ -9,74 +9,81 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-@using (Html.BeginForm(actionName: "Index", controllerName: "CustBank", method: FormMethod.Get)) {
-    <p>
-        <label for="keyword" class="label label-default">Search</label>
-        <input type="text" id="keyword" name="keyword" value="" class="text-primary" />
-        @*<input type="submit" value="查詢" class="btn btn-primary" />*@
-    </p>
-}
-
-<input type="button" value="JQ查詢" class="btn btn-primary" onclick="Getdata()" />
-
-<div class="list-group">
-    <table id="CustBankDataGrid" class="table table-bordered">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.銀行名稱)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.銀行代碼)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.分行代碼)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.帳戶名稱)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.帳戶號碼)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.銀行名稱)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.銀行代碼)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.分行代碼)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.帳戶名稱)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.帳戶號碼)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
-        }
-
-    </table>
+<div class="row">
+    <div class="form-inline form-group col col-md-8">
+        @*@using (Html.BeginForm(actionName: "Index", controllerName: "CustBank", method: FormMethod.Get)) {*@
+        <div class="form-control">
+            <label for="keyword" class="label label-default">Search</label>
+            <input type="text" id="keyword" name="keyword" value="" class="text-primary" />
+            @*<input type="submit" value="查詢" class="btn btn-primary" />*@
+        </div>
+        @*}*@
+        <div class="col col-md-2">
+            <input type="button" value="JQ查詢" class="btn btn-primary" onclick="Getdata()" />
+        </div>        
+        <div class="col col-md-2">
+            <input id="ExportData" type="button" class="btn btn-link" value="匯出EXCEL" />
+        </div>
+    </div>
 </div>
+<table id="CustBankDataGrid" class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.銀行名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.銀行代碼)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.分行代碼)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.帳戶名稱)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.帳戶號碼)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.銀行名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.銀行代碼)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.分行代碼)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.帳戶名稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.帳戶號碼)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.客戶資料.客戶名稱)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
 
 <script type="text/javascript">
 
-   
+
     function Getdata() {
         var KW = $("#keyword").val();
 
@@ -100,17 +107,27 @@
                 for (var i = 0; i < DT.length; ++i) {
 
                     tr = $("<tr/>");
-                    tr.append("<td>" + DT[i]["銀行名稱"] + "</td>");
-                    tr.append("<td>" + DT[i]["銀行代碼"] + "</td>");
-                    tr.append("<td>" + DT[i]["分行代碼"] + "</td>");
-                    tr.append("<td>" + DT[i]["帳戶名稱"] + "</td>");
-                    tr.append("<td>" + DT[i]["帳戶號碼"] + "</td>");
-                    tr.append("<td>" + DT[i]["客戶名稱"] + "</td>");
-                    tr.append("<td><a href=\"@Url.Action("Edit", "CustBank")" + DT[i]["Id"] + "\">Edit</a> | <a href=\"@Url.Action("Details", "CustBank")" + DT[i]["Id"] + "\">Details</a> | <a href=\"@Url.Action("Delete", "CustBank")" + DT[i]["Id"] + "\">Delete</a></td>");
+                    tr.append("<td>" + DT[i].銀行名稱 + "</td>");
+                    tr.append("<td>" + DT[i].銀行代碼 + "</td>");
+                    tr.append("<td>" + DT[i].分行代碼 + "</td>");
+                    tr.append("<td>" + DT[i].帳戶名稱 + "</td>");
+                    tr.append("<td>" + DT[i].帳戶號碼 + "</td>");
+                    tr.append("<td>" + DT[i].客戶名稱 + "</td>");
+                    tr.append("<td><a href=\"@Url.Action("Edit", "CustBank")" + DT[i].Id + "\">Edit</a> | <a href=\"@Url.Action("Details", "CustBank")" + DT[i].Id + "\">Details</a> | <a href=\"@Url.Action("Delete", "CustBank")" + DT[i].Id + "\">Delete</a></td>");
                     $('table').append(tr);
                 }
 
             }
         });
     }
+
+    $(document).ready(function () {
+        $("#ExportData").click(function (e) {
+            var KW = $("#keyword").val();
+
+            e.preventDefault();
+
+            window.location.href = "@Url.Action("ExportData", "CustBank")?keyword=" + KW;
+        });
+    });
 </script>

@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using MVCHomeWork.Models;
 using Newtonsoft.Json;
+using MVCHomeWork.Infrastructure;
+using MVCHomeWork.Infrastructure.CustomResults;
 
 namespace MVCHomeWork.Controllers
 {
@@ -39,17 +41,37 @@ namespace MVCHomeWork.Controllers
                                  客戶名稱 = B.客戶資料.客戶名稱
                              }).ToList();
 
-            try {
-                var data = JsonConvert.SerializeObject(GridModel, Formatting.None);
-                return Json(data, JsonRequestBehavior.AllowGet);
-            } catch (Exception ex) {
 
-                throw ex;
-            }
+            var data = JsonConvert.SerializeObject(GridModel, Formatting.None);
+            return Json(data, JsonRequestBehavior.AllowGet);
 
-            
+        }
 
-            
+        public ActionResult ExportData(string keyword) {
+            var data = from B in new 客戶銀行資訊().GetCustBankData(keyword).Take(PageCount).AsEnumerable()
+                       select new {
+                           ID = B.Id,
+                           銀行名稱 = B.銀行名稱,
+                           銀行代碼 = B.銀行代碼,
+                           分行代碼 = B.分行代碼,
+                           帳戶名稱 = B.帳戶名稱,
+                           帳戶號碼 = B.帳戶號碼,
+                           客戶名稱 = B.客戶資料.客戶名稱,
+                           是否刪除 = _BLL.GetDeleteStstus(B.IsDelete)
+                       };
+
+
+            var dt = LinqExtensions.LinqQueryToDataTable(data);
+
+            var expFileName = string.Concat(
+                "客戶銀行資訊", DateTime.Now.ToString("yyyyMMddHHmmss"), ".xlsx"
+                );
+
+            return new ExportExcelResult {
+                SheetName = "客戶銀行資訊",
+                ExportData = dt,
+                FileName = expFileName
+            };
 
         }
 

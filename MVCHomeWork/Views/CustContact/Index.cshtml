@@ -21,7 +21,7 @@
 }
 <div class="row">
     <div class="col col-md-3 col-lg-2">
-        <input id="ExportData" type="button" class="btn btn-link" value="匯出EXCEL" onclick="" />
+        <input id="ExportData" type="button" class="btn btn-link" value="匯出EXCEL" />
     </div>
 </div>
 <div id="GridBody" class="row tab-pane">
@@ -79,7 +79,19 @@
     </table>
     @*@Html.Action("GridData", "CustContact", Model)*@
 </div>
-    <script type="text/javascript">
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ExportData").click(function (e) {
+            var KW = $("#keyword").val();
+            var CJ = $("#ContactJobTitle").val();
+            var OD = $("#od").val();
+            var ST = $("#st").val();
+            e.preventDefault();
+
+            window.location.href = "@Url.Action("ExportData", "CustContact")?keyword=" + KW + "&ContactJobTitle=" + CJ + "&od=" + OD + "&st=" + ST;
+        });
+    });
+
     function sortCTdata(sortTCol) {
         debugger;
         if ($("#od").val() == sortTCol) {
@@ -98,4 +110,4 @@
     function changeType() {
         $("#btnSerch").click();
     }
-    </script>
+</script>
