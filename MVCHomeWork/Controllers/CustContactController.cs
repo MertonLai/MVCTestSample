@@ -7,8 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVCHomeWork.Models;
-using MVCHomeWork.Infrastructure;
-using MVCHomeWork.Infrastructure.CustomResults;
+using MVCHomeWork.Infrastructure.Helpers;
+using MVCHomeWork.Infrastructure.ActionResults;
 using Newtonsoft.Json;
 
 namespace MVCHomeWork.Controllers

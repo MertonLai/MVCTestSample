@@ -10,8 +10,8 @@ using MVCHomeWork.Models;
 using DataTables.AspNet.Core;
 using DataTables.AspNet.Mvc5;
 using Newtonsoft.Json;
-using MVCHomeWork.Infrastructure.CustomResults;
-using MVCHomeWork.Infrastructure;
+using MVCHomeWork.Infrastructure.ActionResults;
+using MVCHomeWork.Infrastructure.Helpers;
 
 namespace MVCHomeWork.Controllers
 {

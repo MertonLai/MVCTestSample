@@ -8,10 +8,29 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MVCHomeWork.Infrastructure.CustomResults {
+namespace MVCHomeWork.Infrastructure.ActionResults {
+
+    /// <summary>
+    /// 透過繼承ActionResult實做一個會出EXCLE的方法
+    /// </summary>
+    /// <remarks>
+    /// 搭配 ClosedXML 做EXCEL匯出功能
+    /// </remarks>
     public class ExportExcelResult : ActionResult {
+
+        /// <summary>
+        /// 頁籤名稱
+        /// </summary>
         public string SheetName { get; set; }
+
+        /// <summary>
+        /// 檔案名稱
+        /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// 轉出EXCEL的資料來源（Datatable）
+        /// </summary>
         public DataTable ExportData { get; set; }
 
         public ExportExcelResult() {
@@ -41,6 +60,8 @@ namespace MVCHomeWork.Infrastructure.CustomResults {
         /// <param name="context">The context.</param>
         private void ExportExcelEventHandler(ControllerContext context) {
             try {
+                
+                // 建立工作簿
                 var workbook = new XLWorkbook();
 
                 if (this.ExportData != null) {
@@ -55,9 +76,10 @@ namespace MVCHomeWork.Infrastructure.CustomResults {
 
                     // 匯出檔名
                     var browser = context.HttpContext.Request.Browser.Browser;
+
                     var exportFileName = browser.Equals("Firefox", StringComparison.OrdinalIgnoreCase)
                         ? this.FileName
-                        : HttpUtility.UrlEncode(this.FileName, Encoding.UTF8);
+                        : HttpUtility.UrlEncode(this.FileName, Encoding.UTF8);  //針對 瀏覽器判斷 做匯出檔名處理
 
                     context.HttpContext.Response.AddHeader(
                         "Content-Disposition",

@@ -183,9 +183,9 @@
     </Compile>
     <Compile Include="Infrastructure\BLL\IBLL.cs" />
     <Compile Include="Infrastructure\BLL\SysUtility.cs" />
-    <Compile Include="Infrastructure\LinqExtensions.cs" />
-    <Compile Include="Infrastructure\ListToDatatable.cs" />
-    <Compile Include="Infrastructure\CustomResults\ExportExcelResult .cs" />
+    <Compile Include="Infrastructure\Helpers\LinqExtensions.cs" />
+    <Compile Include="Infrastructure\Helpers\ListToDatatable.cs" />
+    <Compile Include="Infrastructure\ActionResults\ExportExcelResult .cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\CustModel.Context.cs">
       <AutoGen>True</AutoGen>

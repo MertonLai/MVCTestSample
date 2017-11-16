@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace MVCHomeWork.Infrastructure {
+namespace MVCHomeWork.Infrastructure.Helpers {
     public class LinqExtensions {
         public static DataTable LinqQueryToDataTable<T>(IEnumerable<T> query) {
             DataTable tbl = new DataTable();

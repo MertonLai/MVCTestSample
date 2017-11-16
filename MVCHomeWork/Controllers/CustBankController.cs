@@ -8,8 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using MVCHomeWork.Models;
 using Newtonsoft.Json;
-using MVCHomeWork.Infrastructure;
-using MVCHomeWork.Infrastructure.CustomResults;
+using MVCHomeWork.Infrastructure.ActionResults;
+using MVCHomeWork.Infrastructure.Helpers;
 
 namespace MVCHomeWork.Controllers
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 
-namespace MVCHomeWork.Infrastructure {
+namespace MVCHomeWork.Infrastructure.Helpers {
     public class ListToDatatable {
         public ListToDatatable() { }
         public static DataTable ListToDataTable<T>(List<T> entitys) {
