@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Dynamic;
 
 namespace MVCHomeWork.Models {
 
@@ -90,78 +91,81 @@ namespace MVCHomeWork.Models {
 
             #region 排序處理
 
-            switch (od) {
-                case "客戶名稱":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.客戶名稱);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.客戶名稱);
-                            break;
-                    }
-                    break;
-                case "電子郵件":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.Email);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.Email);
-                            break;
-                    }
-                    break;
-                case "統一編號":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.統一編號);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.統一編號);
-                            break;
-                    }
-                    break;
-                case "電話":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.電話);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.電話);
-                            break;
-                    }
-                    break;
-                case "傳真":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.傳真);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.傳真);
-                            break;
-                    }
-                    break;
-                case "地址":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.地址);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.地址);
-                            break;
-                    }
-                    break;
-                case "客戶分類":
-                    switch (st) {
-                        case "D":
-                            data = data.OrderByDescending(c => c.客戶分類);
-                            break;
-                        default:
-                            data = data.OrderBy(c => c.客戶分類);
-                            break;
-                    }
-                    break;
-            }
+            data = data.OrderBy(od + " " + (st.Equals("D") ? "DESC" : "ASC"));
+
+            //switch (od) {
+                
+            //    case "客戶名稱":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.客戶名稱);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.客戶名稱);
+            //                break;
+            //        }
+            //        break;
+            //    case "電子郵件":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.Email);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.Email);
+            //                break;
+            //        }
+            //        break;
+            //    case "統一編號":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.統一編號);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.統一編號);
+            //                break;
+            //        }
+            //        break;
+            //    case "電話":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.電話);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.電話);
+            //                break;
+            //        }
+            //        break;
+            //    case "傳真":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.傳真);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.傳真);
+            //                break;
+            //        }
+            //        break;
+            //    case "地址":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.地址);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.地址);
+            //                break;
+            //        }
+            //        break;
+            //    case "客戶分類":
+            //        switch (st) {
+            //            case "D":
+            //                data = data.OrderByDescending(c => c.客戶分類);
+            //                break;
+            //            default:
+            //                data = data.OrderBy(c => c.客戶分類);
+            //                break;
+            //        }
+            //        break;
+            //}
 
             #endregion 排序處理
 
