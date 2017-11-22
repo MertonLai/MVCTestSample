@@ -10,6 +10,7 @@ using MVCHomeWork.Models;
 using Newtonsoft.Json;
 using MVCHomeWork.Infrastructure.ActionResults;
 using MVCHomeWork.Infrastructure.Helpers;
+using MVCHomeWork.Infrastructure.ActionFilters;
 
 namespace MVCHomeWork.Controllers
 {
@@ -29,6 +30,7 @@ namespace MVCHomeWork.Controllers
             return View(model);
         }
 
+        [AjaxOnly]
         public ActionResult GetBankData(string keyword) {
             var GridModel = (from B in new 客戶銀行資訊().GetCustBankData(keyword).Take(PageCount).AsEnumerable()
                              select new {

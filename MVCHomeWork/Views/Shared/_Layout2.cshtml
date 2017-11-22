@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                <a class="brand" href="index.html"><span>Metro</span></a>
+                <a class="brand" href="@Url.Action("Index2", "Home")"><span>Metro</span></a>
 
                 <!-- start: Header Menu -->
                 <div class="nav-no-collapse header-nav">
@@ -327,7 +327,17 @@
             <div id="sidebar-left" class="span2">
                 <div class="nav-collapse sidebar-nav">
                     <ul class="nav nav-tabs nav-stacked main-menu">
-                        <li><a href="index.html"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+                        <li>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> 練習作業</span>@*<span class="label label-important"> 0 </span>*@</a>
+                            <ul>
+                                <li><a class="submenu" href="@Url.Action("Index", "Customers")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶資料管理</span></a></li>
+                                <li><a class="submenu" href="@Url.Action("Index", "CustContact")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶聯絡人管理</span></a></li>
+                                <li><a class="submenu" href="@Url.Action("Index", "CustBank")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶銀行帳戶管理</span></a></li>
+                                <li><a class="submenu" href="@Url.Action("CustomDetailList", "Customers")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶明細資料檢視</span></a></li>
+                            </ul>
+                            
+                        </li>
+                        <li><a href="@Url.Action("Index2", "Home")"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
                         <li><a href="messages.html"><i class="icon-envelope"></i><span class="hidden-tablet"> Messages</span></a></li>
                         <li><a href="tasks.html"><i class="icon-tasks"></i><span class="hidden-tablet"> Tasks</span></a></li>
                         <li><a href="ui.html"><i class="icon-eye-open"></i><span class="hidden-tablet"> UI Features</span></a></li>

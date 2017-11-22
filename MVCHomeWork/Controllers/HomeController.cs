@@ -1,13 +1,18 @@
-﻿using System;
+﻿using MVCHomeWork.Infrastructure.ActionFilters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace MVCHomeWork.Controllers {
+
+    
     public class HomeController : BaseController {
+        
         public ActionResult Index() {
-            return View();
+            //return View();
+            return RedirectToAction("Index2");
         }
 
         public ActionResult About() {

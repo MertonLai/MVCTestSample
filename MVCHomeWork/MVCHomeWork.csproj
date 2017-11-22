@@ -185,6 +185,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\ActionFilters\AjaxOnlyActionFilter.cs" />
+    <Compile Include="Infrastructure\ActionFilters\CustCardTypeAttribute.cs" />
+    <Compile Include="Infrastructure\ActionFilters\ExcutionTimeActionFilter.cs" />
+    <Compile Include="Infrastructure\ActionFilters\ShareDataAttribute.cs" />
     <Compile Include="Infrastructure\BLL\IBLL.cs" />
     <Compile Include="Infrastructure\BLL\SysUtility.cs" />
     <Compile Include="Infrastructure\Helpers\LinqExtensions.cs" />
