@@ -90,9 +90,9 @@ namespace MVCHomeWork.Models {
             }
 
             #region 排序處理
-
-            data = data.OrderBy(od + " " + (st.Equals("D") ? "DESC" : "ASC"));
-
+            if (!string.IsNullOrEmpty(od)) {
+                data = data.OrderBy(od + (st != null && st.Equals("D") ? " DESC" : ""));
+            }
             //switch (od) {
                 
             //    case "客戶名稱":

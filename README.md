@@ -24,3 +24,11 @@ MVCSample
 * 套用比較正確的模型繫結驗證 (輸入驗證 + 模型驗證)
 * 如果可以的話，透過 JavaScript 實作一些 AJAX 操作，後端 MVC 使用 JsonResult 進行回應
 * 使用 ClosedXML 這個 NuGet 套件實作資料匯出功能，每個清單頁上都要有可以匯出 Excel 檔案的功能，要用到 FileResult 下載檔案
+
+第四周作業
+* 延續上周作業加以延伸開發
+* 修正上週所有 Bugs
+* 請套用 Dashboard 版型在原本的作業上
+* 請套用 Action Filter 整理部分 Controller 中的程式碼
+* 請確認 Model Binding 的正確性
+* 請透過 [HandleError] 實作特定例外的錯誤頁面

@@ -17,6 +17,36 @@ namespace MVCHomeWork.Controllers
 {
     public class CustomersController : BaseController
     {
+        string _keyword = string.Empty;
+        string _od = string.Empty;
+        string _st = string.Empty;
+        string _cp = string.Empty;
+
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext) {
+
+
+
+            var data = filterContext.ActionParameters;
+
+            if (data["keyword"] != null && !string.IsNullOrEmpty(data["keyword"].ToString())) {
+                _keyword = data["keyword"].ToString();
+            }
+
+            if (data["od"] != null && !string.IsNullOrEmpty(data["od"].ToString())) {
+                _od = data["od"].ToString();
+            }
+
+            if (data["st"] != null && !string.IsNullOrEmpty(data["st"].ToString())) {
+                _od = data["st"].ToString();
+            }
+
+            if (data["CustCardType"] != null && !string.IsNullOrEmpty(data["CustCardType"].ToString())) {
+                _od = data["CustCardType"].ToString();
+            }
+
+            base.OnActionExecuting(filterContext);
+        }
 
 
         // GET: Customers
@@ -40,6 +70,8 @@ namespace MVCHomeWork.Controllers
         // GET: Customers/Details/5
         public ActionResult Details(int? id)
         {
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

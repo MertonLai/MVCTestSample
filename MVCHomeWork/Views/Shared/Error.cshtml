@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model System.Web.Mvc.HandleErrorInfo
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -7,8 +8,9 @@
 </head>
 <body>
     <hgroup>
-        <h1>錯誤。</h1>
-        <h2>處理您的要求時發生錯誤。</h2>
+        <h1>系統發生錯誤。</h1>
+        <h2>處理您的要求"~/@Model.ControllerName/@Model.ActionName"時發生錯誤。</h2>
     </hgroup>
+    <pre>@Model.Exception.ToString()</pre>
 </body>
 </html>
