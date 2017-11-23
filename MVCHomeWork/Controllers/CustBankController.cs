@@ -10,7 +10,7 @@ using MVCHomeWork.Models;
 using Newtonsoft.Json;
 using MVCHomeWork.Infrastructure.ActionResults;
 using MVCHomeWork.Infrastructure.Helpers;
-using MVCHomeWork.Infrastructure.ActionFilters;
+using MVCHomeWork.ActionFilters;
 
 namespace MVCHomeWork.Controllers
 {

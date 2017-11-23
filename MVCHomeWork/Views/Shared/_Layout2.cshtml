@@ -334,8 +334,8 @@
                                 <li><a class="submenu" href="@Url.Action("Index", "CustContact")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶聯絡人管理</span></a></li>
                                 <li><a class="submenu" href="@Url.Action("Index", "CustBank")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶銀行帳戶管理</span></a></li>
                                 <li><a class="submenu" href="@Url.Action("CustomDetailList", "Customers")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶明細資料檢視</span></a></li>
-                            </ul>
-                            
+                                <li><a class="submenu" href="@Url.Action("BankInfo", "CustBank")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶銀行明細資料檢視（ErrorHandler）</span></a></li>
+                            </ul>                            
                         </li>
                         <li><a href="@Url.Action("Index2", "Home")"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
                         <li><a href="messages.html"><i class="icon-envelope"></i><span class="hidden-tablet"> Messages</span></a></li>
@@ -458,6 +458,6 @@
     <script src="/js/retina.js"></script>
     <script src="/js/custom.js"></script>
     <!-- end: JavaScript-->
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>

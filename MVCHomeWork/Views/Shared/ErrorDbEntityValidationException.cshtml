@@ -1,0 +1,35 @@
+﻿@using System.Data.Entity.Validation
+@model System.Web.Mvc.HandleErrorInfo
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>錯誤</title>
+</head>
+<body>
+    <hgroup>
+        <h1 class="text-danger">您輸入的資料錯誤，請修正後再送出一次！</h1>
+        <h2 class="text-danger">An error occurred while processing your request.</h2>
+    </hgroup>
+
+    
+    @{
+        var Err = Model.Exception as DbEntityValidationException;
+        var allerr = new List<string>();
+        foreach (DbEntityValidationResult rs in Err.EntityValidationErrors) {
+            foreach (var er in rs.ValidationErrors) {
+                allerr.Add(er.ErrorMessage);
+            }
+        }
+    }
+    <ul>
+        @foreach (var item in allerr) {
+            <li>@item</li>
+        }
+    </ul>
+</body>
+</html>

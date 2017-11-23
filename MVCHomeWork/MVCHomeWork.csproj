@@ -185,10 +185,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\ActionFilters\AjaxOnlyActionFilter.cs" />
-    <Compile Include="Infrastructure\ActionFilters\CustCardTypeAttribute.cs" />
-    <Compile Include="Infrastructure\ActionFilters\ExcutionTimeActionFilter.cs" />
-    <Compile Include="Infrastructure\ActionFilters\ShareDataAttribute.cs" />
+    <Compile Include="ActionFilters\AjaxOnlyActionFilter.cs" />
+    <Compile Include="ActionFilters\CustCardTypeAttribute.cs" />
+    <Compile Include="ActionFilters\ExcutionTimeAttribute.cs" />
+    <Compile Include="ActionFilters\ShareDataAttribute.cs" />
     <Compile Include="Infrastructure\BLL\IBLL.cs" />
     <Compile Include="Infrastructure\BLL\SysUtility.cs" />
     <Compile Include="Infrastructure\Helpers\LinqExtensions.cs" />
@@ -215,6 +215,7 @@
     <Compile Include="Models\Partial\客戶聯絡人.cs" />
     <Compile Include="Models\Partial\客戶資料.cs" />
     <Compile Include="Models\Partial\客戶銀行資訊.cs" />
+    <Compile Include="Models\ViewModels\CustomQueryVM.cs" />
     <Compile Include="Models\客戶聯絡人.cs">
       <DependentUpon>CustModel.tt</DependentUpon>
     </Compile>
@@ -327,6 +328,10 @@
     <Content Include="Views\Customers\CustomerJQ.cshtml" />
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
+    <Content Include="Views\Shared\Footer.cshtml" />
+    <Content Include="Views\Shared\CSRFError.cshtml" />
+    <Content Include="Views\Shared\ChildActionOnly.cshtml" />
+    <Content Include="Views\Shared\ErrorDbEntityValidationException.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />

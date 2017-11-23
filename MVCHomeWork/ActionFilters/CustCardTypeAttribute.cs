@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace MVCHomeWork.Infrastructure.ActionFilters {
+namespace MVCHomeWork.ActionFilters {
     public class CustCardTypeAttribute : ActionFilterAttribute {
         protected IBLL _BLL = new SysUtility();
         public override void OnActionExecuting(ActionExecutingContext filterContext) {

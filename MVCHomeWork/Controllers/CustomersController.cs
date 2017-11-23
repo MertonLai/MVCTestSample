@@ -12,7 +12,7 @@ using DataTables.AspNet.Mvc5;
 using Newtonsoft.Json;
 using MVCHomeWork.Infrastructure.ActionResults;
 using MVCHomeWork.Infrastructure.Helpers;
-using MVCHomeWork.Infrastructure.ActionFilters;
+using MVCHomeWork.ActionFilters;
 
 namespace MVCHomeWork.Controllers
 {
@@ -22,16 +22,36 @@ namespace MVCHomeWork.Controllers
 
         // GET: Customers
 
-        [ExcutionTimeActionFilter]
+        [ExcutionTimeAttribute]
         [CustCardType]
         public ActionResult Index(string keyword, int? CustCardType, string od, string st) {
+            CustomerViewModel model = new CustomerViewModel();
 
-            CustomerViewModel model = new CustomerViewModel() {
-                keyword = keyword,
-                CustCardType = CustCardType,
-                od = string.IsNullOrWhiteSpace(od) ? "" : od,
-                st = string.IsNullOrWhiteSpace(st) ? "A" : st
+            if (TempData["QryCust"] != null) {
+                var Qry = TempData["QryCust"] as CustomQueryVM;
+                model.keyword = Qry.keyword;
+                model.CustCardType = Qry.CustCardType;
+                model.od = Qry.od;
+                model.st = Qry.st;
+            }
+
+            TryUpdateModel(model);
+
+            //model.keyword = keyword;
+            //model.CustCardType = CustCardType;
+            //model.od = string.IsNullOrWhiteSpace(od) ? "" : od;
+            //model.st = string.IsNullOrWhiteSpace(st) ? "A" : st;
+            
+
+            CustomQueryVM TmpQryMD = new CustomQueryVM() {
+                keyword = model.keyword,
+                CustCardType = model.CustCardType,
+                od = model.od,
+                st = model.st
             };
+
+            TempData["QryCust"] = TmpQryMD;
+            
 
             //ViewBag.CustCard = _BLL.GetCustTypesList((CustCardType.HasValue ? CustCardType.Value : 0));
 
