@@ -30,12 +30,15 @@
     <!-- start: Favicon -->
     <link rel="shortcut icon" href="/img/favicon.ico">
     <!-- end: Favicon -->
+    @Scripts.Render("~/bundles/modernizr")
 
-
-
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 </head>
 <body>
+    <div class="container body-content">
+        @RenderSection("Header", false)
+    </div>
     <!-- start: Header -->
     <div class="navbar">
         <div class="navbar-inner">
@@ -46,7 +49,6 @@
                     <span class="icon-bar"></span>
                 </a>
                 <a class="brand" href="@Url.Action("Index2", "Home")"><span>Metro</span></a>
-
                 <!-- start: Header Menu -->
                 <div class="nav-no-collapse header-nav">
                     <ul class="nav pull-right">
@@ -335,6 +337,7 @@
                                 <li><a class="submenu" href="@Url.Action("Index", "CustBank")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶銀行帳戶管理</span></a></li>
                                 <li><a class="submenu" href="@Url.Action("CustomDetailList", "Customers")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶明細資料檢視</span></a></li>
                                 <li><a class="submenu" href="@Url.Action("BankInfo", "CustBank")"><i class="icon-file-alt"></i><span class="hidden-tablet">客戶銀行明細資料檢視（ErrorHandler）</span></a></li>
+                                <li><a class="submenu" href="@Url.Action("CreateNew", "CustBank")"><i class="icon-file-alt"></i><span class="hidden-tablet">新增客戶銀行明細資料（Custom ErrorHandler）</span></a></li>
                             </ul>                            
                         </li>
                         <li><a href="@Url.Action("Index2", "Home")"><i class="icon-bar-chart"></i><span class="hidden-tablet"> Dashboard</span></a></li>
@@ -405,16 +408,16 @@
     </footer>
 
     <!-- start: JavaScript-->
-    <script src="/js/jquery-1.9.1.min.js"></script>
+    @*<script src="/js/jquery-1.9.1.min.js"></script>*@
     <script src="/js/jquery-migrate-1.0.0.min.js"></script>
 
     <script src="/js/jquery-ui-1.10.0.custom.min.js"></script>
 
     <script src="/js/jquery.ui.touch-punch.js"></script>
 
-    <script src="/js/modernizr.js"></script>
+    @*<script src="/js/modernizr.js"></script>
 
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>*@
 
     <script src="/js/jquery.cookie.js"></script>
 

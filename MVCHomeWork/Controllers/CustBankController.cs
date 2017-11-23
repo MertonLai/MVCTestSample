@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using MVCHomeWork.Infrastructure.ActionResults;
 using MVCHomeWork.Infrastructure.Helpers;
 using MVCHomeWork.ActionFilters;
+using System.Data.Entity.Validation;
 
 namespace MVCHomeWork.Controllers
 {
@@ -21,9 +22,17 @@ namespace MVCHomeWork.Controllers
         // GET: CustBank
         public ActionResult Index(string keyword)
         {
+            keyword = "";
+
             IEnumerable<客戶銀行資訊> model = new List<客戶銀行資訊>();
 
-            ViewBag.SearchKey = keyword;
+            if (TempData["BankSearchKey"] != null) {
+                keyword = TempData["BankSearchKey"] as string;
+            }
+
+            TryUpdateModel(keyword);
+
+            TempData["BankSearchKey"] = ViewBag.SearchKey = keyword;
 
             model = new 客戶銀行資訊().GetCustBankData(keyword).Take(PageCount);
 
@@ -32,6 +41,9 @@ namespace MVCHomeWork.Controllers
 
         [AjaxOnly]
         public ActionResult GetBankData(string keyword) {
+
+            TempData["BankSearchKey"] = ViewBag.SearchKey = keyword;
+
             var GridModel = (from B in new 客戶銀行資訊().GetCustBankData(keyword).Take(PageCount).AsEnumerable()
                              select new {
                                  Id = B.Id,
@@ -115,6 +127,34 @@ namespace MVCHomeWork.Controllers
 
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
             return View(客戶銀行資訊);
+        }
+
+        public ActionResult CreateNew() {
+            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "ErrorDbEntityValidationException")]
+        public ActionResult CreateNew([Bind(Include = "客戶Id,銀行名稱,銀行代碼,分行代碼,帳戶名稱,帳戶號碼")] 客戶銀行資訊 客戶銀行資訊) {
+            try {
+                TryUpdateModel(客戶銀行資訊);
+                db.客戶銀行資訊.Add(客戶銀行資訊);
+                db.SaveChanges();
+
+            } catch (DbEntityValidationException dex) {
+                throw dex;
+            } 
+            catch (Exception ex) {
+
+                throw ex;
+            }
+            
+
+            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
+            return RedirectToAction("Index");
+
         }
 
         // GET: CustBank/Edit/5

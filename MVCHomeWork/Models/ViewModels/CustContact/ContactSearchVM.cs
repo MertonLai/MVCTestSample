@@ -5,11 +5,8 @@ using System.Linq;
 using System.Web;
 
 namespace MVCHomeWork.Models {
-    public class ContactViewModel {
-
-        public ContactViewModel() {
-            GridModel = new List<客戶聯絡人>();
-        }
+    public class ContactSearchVM {
+        
 
         [Display(Name = "查詢條件", Prompt = "客戶名稱或統一編號")]
         public string keyword {
@@ -32,7 +29,5 @@ namespace MVCHomeWork.Models {
         public string st {
             get; set;
         }
-
-        public IEnumerable<客戶聯絡人> GridModel { get; set; }
     }
 }

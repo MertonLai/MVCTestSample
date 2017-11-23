@@ -16,6 +16,7 @@ namespace MVCHomeWork.Models {
             [Required(ErrorMessage = "請輸入{0}資料")]
             public int 客戶Id { get; set; }
 
+            [Required(ErrorMessage = "請輸入{0}資料")]
             public string 銀行名稱 { get; set; }
 
             [Required(ErrorMessage = "請輸入{0}資料")]

@@ -10,10 +10,12 @@ using MVCHomeWork.Models;
 using MVCHomeWork.Infrastructure.Helpers;
 using MVCHomeWork.Infrastructure.ActionResults;
 using Newtonsoft.Json;
+using MVCHomeWork.ActionFilters;
 
 namespace MVCHomeWork.Controllers
 {
-	public class CustContactController : BaseController
+    [ExcutionTime]
+    public class CustContactController : BaseController
 	{
 		
         
@@ -21,16 +23,39 @@ namespace MVCHomeWork.Controllers
         // GET: CustContact
         public ActionResult Index(string keyword, string ContactJobTitle, string od, string st)
 		{
-			ContactViewModel model = new ContactViewModel() {
-				keyword = (string.IsNullOrEmpty(keyword) ? "" : keyword),
-				ContactJobTitle = (string.IsNullOrEmpty(ContactJobTitle) ? "" : ContactJobTitle),
-				od = (string.IsNullOrEmpty(od) ? "" : od),
-				st = (string.IsNullOrEmpty(st) ? "A" : st)
-			};
+            //ContactSearchVM
 
-            model.GridModel = new 客戶聯絡人().GetCustContData(keyword, ContactJobTitle, od, st).Take(PageCount);
+            ContactViewModel model = new ContactViewModel();
+            if (TempData["QryContact"] != null) {
+                var Qry = TempData["QryContact"] as ContactSearchVM;
+                model.keyword = Qry.keyword;
+                model.ContactJobTitle = Qry.ContactJobTitle;
+                model.od = Qry.od;
+                model.st = Qry.st;
+            }
 
-            ViewBag.JobTitleList = new BLL.SysUtility().GetJobTitleList(ContactJobTitle);
+            TryUpdateModel(model);
+
+            ContactSearchVM TmpQryMD = new ContactSearchVM() {
+                keyword = model.keyword,
+                ContactJobTitle = model.ContactJobTitle,
+                od = model.od,
+                st = model.st
+            };
+
+            TempData["QryContact"] = TmpQryMD;
+
+
+            //{
+            //	keyword = (string.IsNullOrEmpty(keyword) ? "" : keyword),
+            //	ContactJobTitle = (string.IsNullOrEmpty(ContactJobTitle) ? "" : ContactJobTitle),
+            //	od = (string.IsNullOrEmpty(od) ? "" : od),
+            //	st = (string.IsNullOrEmpty(st) ? "A" : st)
+            //};
+
+            model.GridModel = new 客戶聯絡人().GetCustContData(model.keyword, model.ContactJobTitle, model.od, model.st).Take(PageCount);
+
+            ViewBag.JobTitleList = _BLL.GetJobTitleList(ContactJobTitle);
 
             return View(model);
 		}

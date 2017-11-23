@@ -20,7 +20,7 @@
         @*}*@
         <div class="col col-md-2">
             <input type="button" value="JQ查詢" class="btn btn-primary" onclick="Getdata()" />
-        </div>        
+        </div>
         <div class="col col-md-2">
             <input id="ExportData" type="button" class="btn btn-link" value="匯出EXCEL" />
         </div>
@@ -113,7 +113,7 @@
                     tr.append("<td>" + DT[i].帳戶名稱 + "</td>");
                     tr.append("<td>" + DT[i].帳戶號碼 + "</td>");
                     tr.append("<td>" + DT[i].客戶名稱 + "</td>");
-                    tr.append("<td><a href=\"@Url.Action("Edit", "CustBank")" + DT[i].Id + "\">Edit</a> | <a href=\"@Url.Action("Details", "CustBank")" + DT[i].Id + "\">Details</a> | <a href=\"@Url.Action("Delete", "CustBank")" + DT[i].Id + "\">Delete</a></td>");
+                    tr.append("<td><a href=\"@Url.Action("Edit", "CustBank")/" + DT[i].Id + "\">Edit</a> | <a href=\"@Url.Action("Details", "CustBank")/" + DT[i].Id + "\">Details</a> | <a href=\"@Url.Action("Delete", "CustBank")/" + DT[i].Id + "\">Delete</a></td>");
                     $('table').append(tr);
                 }
 
@@ -122,6 +122,9 @@
     }
 
     $(document).ready(function () {
+        $("#keyword").val("@(string.IsNullOrEmpty(ViewBag.SearchKey) ? "" : @ViewBag.SearchKey)");
+
+
         $("#ExportData").click(function (e) {
             var KW = $("#keyword").val();
 
